@@ -1,0 +1,62 @@
+import printf;
+import sqrt, ceil, abs from "libm.so.6";
+
+var input = sizeof(arguments) ? cast<int> arguments[0] : 0;
+if(!input) {
+    printf("Error: Invalid Input!");
+    return 0;
+}
+
+//coords between abs(x1 - 1) + abs(x2 - 1)
+
+var ring = cast<int> (ceil!double(sqrt!double(cast<float> input)) / 2);
+var ringBorder = 2 * ring + 1;
+var ringStart = (ringBorder - 2) * (ringBorder - 2) + 1;
+var coords = map_stack { x: ring, y: -ring + 1 };
+var diffToRingStart = input - ringStart;
+
+if(diffToRingStart > ringBorder - 2) {
+    diffToRingStart -= ringBorder - 2;
+    coords.y += ringBorder - 2;
+}
+else {
+    coords.y += diffToRingStart;
+    diffToRingStart = 0;
+}
+
+if(diffToRingStart > ringBorder - 1) {
+    diffToRingStart -= ringBorder - 1;
+    coords.x -= ringBorder - 1;
+}
+else {
+    coords.x -= diffToRingStart;
+    diffToRingStart = 0;
+}
+
+if(diffToRingStart > ringBorder - 1) {
+    diffToRingStart -= ringBorder - 1;
+    coords.y -= ringBorder - 1;
+}
+else {
+    coords.y -= diffToRingStart;
+    diffToRingStart = 0;
+}
+
+if(diffToRingStart > ringBorder - 1) {
+    diffToRingStart -= ringBorder - 1;
+    coords.x += ringBorder - 1;
+}
+else {
+    coords.x += diffToRingStart;
+    diffToRingStart = 0;
+}
+
+var manhattanDistance = abs(coords.x) + abs(coords.y);
+
+printf( "Ring: $ring\n"
+        "Ring Border Length: $ringBorder\n"
+        "Ring Start Number: $ringStart\n"
+        "Coords:\n"
+        "   x: ${coords.x}\n"
+        "   y: ${coords.y}\n"
+        "Distance to 1: $manhattanDistance");
