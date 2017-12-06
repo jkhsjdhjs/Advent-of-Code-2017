@@ -1,22 +1,18 @@
 <?php
-    if(count($argv) == 1)
-        exit("Invalid arguments!");
+    if(count($argv) === 1)
+        die("Invalid arguments!");
     $filename = $argv[1];
     if(!file_exists($filename))
-        exit("Specified file is non-existant!");
-    $contents = file($filename);
-    $contents = array_map(function ($x) {
-        return intval($x);
-    }, $contents);
-    $i = 0;
-    $steps = 0;
-    while($i < count($contents)) {
+        die("Specified file is non-existant!");
+    $contents = array_map(intval, file($filename));
+    $i = $steps = 0;
+    do {
         $steps++;
         // Part 1
         // $contents[$i]++;
         $offset = $contents[$i] >= 3 ? -1 : 1;
         $contents[$i] += $offset;
         $i += $contents[$i] - $offset;
-    }
-    echo "Escaped the maze after " . $steps . " Steps!";
+    } while($i < count($contents));
+    echo "Escaped the maze after {$steps} Steps!";
 ?>
