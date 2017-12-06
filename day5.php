@@ -1,10 +1,10 @@
 <?php
     if(count($argv) === 1)
         die("Invalid arguments!");
-    $filename = $argv[1];
-    if(!file_exists($filename))
+    if(!file_exists($argv[1]))
         die("Specified file is non-existant!");
-    $contents = array_map(intval, file($filename));
+    if(!($contents = array_map('intval', file($argv[1]))))
+        die("File is empty!");
     $i = $steps = 0;
     do {
         $steps++;
